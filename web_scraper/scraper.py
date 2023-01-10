@@ -14,7 +14,7 @@ def get_citations_needed_count(url):
     citation_count = 0
 
     for item in paragraph_list:
-        for string in item.strpped_strings:
+        for string in item.stripped_strings:
             if sub_string in repr(string):
                 citation_count += 1
     print(f'Number of Citation: {citation_count}\n')
@@ -23,7 +23,7 @@ def get_citations_needed_count(url):
 def get_citations_needed_report(url):
     res = requests.get(url)
     list_with_citation = []
-    results_to_display = []
+    result_to_display = []
     soup = BeautifulSoup(res.content, 'html.parser')
 
     paragraph_list = soup.find_all('p')
@@ -35,13 +35,13 @@ def get_citations_needed_report(url):
     for paragraph in list_with_citation:
         head, sep, tail = paragraph.rpartition('[citation needed]')
         if sub_string in head:
-            new_head, sep, new_tail = head.rpartition('[citation needed]')
-            results_to_display.append(new_head)
-            results_to_display.append(new_tail)
+            new_head, sep, new_tail = head.partition('[citation needed]')
+            result_to_display.append(new_head)
+            result_to_display.append(new_tail)
         else:
-            results_to_display.append(head)
-    print('paragraph with Citation:\n')
-    for paragraph in results_to_display:
+            result_to_display.append(head)
+    print('Paragraph with Citation:\n')
+    for paragraph in result_to_display:
         print(paragraph)
         print()
         time.sleep(3)
@@ -49,5 +49,5 @@ def get_citations_needed_report(url):
         # print(items.replace("[citation needed]", "\n\n"))
 
 
-get_citations_needed_count()
-get_citations_needed_report()
+get_citations_needed_count(url)
+get_citations_needed_report(url)
